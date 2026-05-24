@@ -184,6 +184,21 @@ export const VisualizerPage = () => {
   const [speed, setSpeed] = React.useState(1.0)
   const [language, setLanguage] = React.useState('javascript')
   const [runKey, setRunKey] = React.useState(null)
+  // Live list of node IDs from the canvas (kept in sync via onGraphChange)
+  const [nodeIds, setNodeIds] = React.useState(
+    Array.from({ length: 15 }, (_, i) => i + 1)
+  )
+
+  const handleGraphChange = React.useCallback(
+    (ids) => {
+      setNodeIds(ids)
+      // Deselect starting node if it no longer exists on canvas
+      if (node !== null && !ids.includes(parseInt(node))) {
+        setNode(null)
+      }
+    },
+    [node]
+  )
 
   const handleSpeedChange = (event, newValue) => {
     setSpeed(newValue)
@@ -315,7 +330,7 @@ export const VisualizerPage = () => {
           algorithm={algorithm}
           setAlgorithm={setAlgorithm}
         />
-        <MenuSelectNodeSearch node={node} setNode={setNode} />
+        <MenuSelectNodeSearch node={node} setNode={setNode} nodeIds={nodeIds} />
         <SpeedSlider value={speed} onChange={handleSpeedChange} />
       </div>
 
@@ -329,6 +344,7 @@ export const VisualizerPage = () => {
                 vertex={node}
                 speed={speed}
                 runKey={runKey}
+                onGraphChange={handleGraphChange}
               />
             </div>
 

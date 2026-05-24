@@ -36,6 +36,19 @@ export const ShortestPathPage = () => {
   const [speed, setSpeed] = React.useState(1.0)
   const [language, setLanguage] = React.useState('javascript')
   const [runKey, setRunKey] = React.useState(null)
+  // Live list of node IDs from the canvas (kept in sync via onGraphChange)
+  const [nodeIds, setNodeIds] = React.useState(
+    Array.from({ length: 9 }, (_, i) => i + 1)
+  )
+
+  const handleGraphChange = React.useCallback(
+    (ids) => {
+      setNodeIds(ids)
+      if (source !== null && !ids.includes(parseInt(source))) setSource(null)
+      if (target !== null && !ids.includes(parseInt(target))) setTarget(null)
+    },
+    [source, target]
+  )
 
   const handleSpeedChange = (_, newValue) => {
     setSpeed(newValue)
@@ -240,6 +253,7 @@ export const ShortestPathPage = () => {
             target={target}
             setSource={setSource}
             setTarget={setTarget}
+            nodeIds={nodeIds}
           />
         )}
 
@@ -258,6 +272,7 @@ export const ShortestPathPage = () => {
                     target={target}
                     speed={speed}
                     runKey={runKey}
+                    onGraphChange={handleGraphChange}
                   />
                 </div>
 
