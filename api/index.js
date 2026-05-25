@@ -15,7 +15,7 @@ app.get('/api/health', (req, res) => {
 })
 
 // For local development
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
   })
