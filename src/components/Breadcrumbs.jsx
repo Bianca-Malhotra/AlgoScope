@@ -22,11 +22,7 @@ export default function Breadcrumbs() {
   const location = useLocation()
 
   const pathnames = useMemo(
-    () =>
-      location.pathname
-        .replace(/[?#].*$/, '')
-        .split('/')
-        .filter(Boolean),
+    () => location.pathname.split('/').filter(Boolean),
     [location.pathname]
   )
 
