@@ -422,8 +422,7 @@ const buildMetrics = (result, startTime, endTime, grid) => {
   const pathCost = getPathCost(result, grid)
   const relaxations =
     result.totalRelaxations ||
-    result.steps?.filter((s) => s.type === 'relax' || s.type === 'update')
-      .length ||
+    result.steps?.filter((s) => s.type === 'relax').length ||
     0
   const matrixUpdates = result.matrixUpdates || 0
   const visitedCount = result.visitedCount || 0
@@ -548,18 +547,31 @@ const ComparisonCard = memo(
 
     const hasRelaxMetric =
       liveMetrics?.relaxations !== undefined ||
-      liveMetrics?.matrixUpdates !== undefined
+      liveMetrics?.matrixUpdates !== undefined ||
+      (status === 'complete' && metrics.steps > 0)
 
     const displayRelaxUpdate = (() => {
-      if (algoKey === 'dijkstra' && liveMetrics?.relaxations !== undefined)
-        return liveMetrics.relaxations
-      if (algoKey === 'bellmanford' && liveMetrics?.relaxations !== undefined)
-        return liveMetrics.relaxations
-      if (
-        algoKey === 'floydwarshall' &&
-        liveMetrics?.matrixUpdates !== undefined
-      )
-        return liveMetrics.matrixUpdates
+      if (algoKey === 'dijkstra') {
+        return (
+          liveMetrics?.relaxations ??
+          (status === 'complete' ? metrics.steps : '—')
+        )
+      }
+
+      if (algoKey === 'bellmanford') {
+        return (
+          liveMetrics?.relaxations ??
+          (status === 'complete' ? metrics.steps : '—')
+        )
+      }
+
+      if (algoKey === 'floydwarshall') {
+        return (
+          liveMetrics?.matrixUpdates ??
+          (status === 'complete' ? metrics.steps : '—')
+        )
+      }
+
       return '—'
     })()
 
