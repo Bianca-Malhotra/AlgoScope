@@ -3,6 +3,9 @@ import { Link, useLocation } from 'react-router-dom'
 import { ChevronRight, Home } from 'lucide-react'
 
 const routeLabels = {
+  prep: 'Prep',
+  practice: 'Practice',
+  about: 'About',
   sort: 'Sorting',
   search: 'Searching',
   spath: 'Shortest Path',

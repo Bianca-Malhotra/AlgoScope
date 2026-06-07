@@ -5,6 +5,7 @@ import { simple } from '@clerk/themes'
 import './input.css'
 import App from './App.jsx'
 import { ThemeProvider } from './context/ThemeProvider.jsx'
+import { ModeProvider } from './context/ModeProvider.jsx'
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -174,7 +175,9 @@ if (PUBLISHABLE_KEY) {
         }}
       >
         <ThemeProvider>
-          <App />
+          <ModeProvider>
+            <App />
+          </ModeProvider>
         </ThemeProvider>
       </ClerkProvider>
     </StrictMode>
@@ -183,7 +186,9 @@ if (PUBLISHABLE_KEY) {
   createRoot(document.getElementById('root')).render(
     <StrictMode>
       <ThemeProvider>
-        <App />
+        <ModeProvider>
+          <App />
+        </ModeProvider>
       </ThemeProvider>
     </StrictMode>
   )

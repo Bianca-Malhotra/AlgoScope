@@ -7,6 +7,21 @@ import { APP_VERSION } from '../../lib/version'
 export default function AboutAlgoScope() {
   const aditya = 'https://github.com/adityapaul26.png'
   const bratik = 'https://github.com/Bimbok.png'
+  const interviewCards = [
+    {
+      title: 'Explain the trade-off',
+      description:
+        'Why one approach wins for memory, speed, or implementation risk.',
+    },
+    {
+      title: 'State the complexity',
+      description: 'Best, average, and worst-case time and space in one pass.',
+    },
+    {
+      title: 'Name the optimization',
+      description: 'Show the optimized version, then explain what it saves.',
+    },
+  ]
   const features = [
     {
       icon: (
@@ -134,6 +149,44 @@ export default function AboutAlgoScope() {
           animations, empowering the next generation of developers to master
           logic through motion.
         </p>
+      </motion.div>
+
+      <motion.div
+        className="mb-20 rounded-[2rem] border border-cyan-500/20 bg-cyan-500/5 p-8 md:p-10 backdrop-blur-xl"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-400/80">
+              Interview focus
+            </p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-white">
+              Turn the visualizer into an interview answer.
+            </h2>
+          </div>
+          <p className="max-w-2xl text-sm leading-6 text-slate-400 md:text-right">
+            Use these prompts to frame the algorithm, then point to the
+            existing visualizers for evidence. The engine stays the same; the
+            explanation changes.
+          </p>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {interviewCards.map((card) => (
+            <div
+              key={card.title}
+              className="rounded-2xl border border-white/10 bg-slate-950/60 p-5"
+            >
+              <p className="text-sm font-semibold text-white">{card.title}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-400">
+                {card.description}
+              </p>
+            </div>
+          ))}
+        </div>
       </motion.div>
 
       {/* Main Grid Content */}

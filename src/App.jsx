@@ -66,6 +66,7 @@ const ChallengePage = lazy(() => import('./components/challenge/ChallengePage'))
 const OperatingSystemsPage = lazy(
   () => import('./components/operatingSystems/OperatingSystemsPage')
 )
+const InterviewView = lazy(() => import('./components/InterviewView'))
 
 // Simple fallback for Suspense
 const PageLoader = () => (
@@ -77,6 +78,10 @@ const PageLoader = () => (
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <Navigate to="/prep" replace />,
+  },
+  {
+    path: '/prep',
     element: (
       <Suspense fallback={<PageLoader />}>
         <AppLayout showBackground={false}>
@@ -257,6 +262,16 @@ const router = createBrowserRouter([
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
           <OperatingSystemsPage />
+        </AppLayout>
+      </Suspense>
+    ),
+  },
+  {
+    path: '/interview',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <AppLayout>
+          <InterviewView />
         </AppLayout>
       </Suspense>
     ),

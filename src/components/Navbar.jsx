@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
   SignedIn,
   SignedOut,
@@ -7,6 +7,7 @@ import {
   UserButton,
 } from '@clerk/clerk-react'
 import { X } from 'lucide-react'
+import { useLocation } from 'react-router-dom'
 
 const HAS_CLERK = Boolean(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY)
 import { motion, AnimatePresence } from 'framer-motion'
@@ -15,6 +16,7 @@ import githubIcon from '../assets/github-mark-white.svg'
 import logo from '../assets/logo2.png'
 import SearchBar from './SearchBar'
 import { useTheme } from '../context/useTheme'
+import ModeTabs from './ModeTabs'
 
 const bounceTransition = {
   type: 'spring',
@@ -95,311 +97,103 @@ const ThemeToggleButton = ({ compact = false, ...props }) => {
   )
 }
 
-const algorithmLinks = [
-  { name: 'Search', href: '/search', difficulty: 'Beginner' },
-  { name: 'Sort', href: '/sort', difficulty: 'Beginner' },
-  { name: 'Array Search', href: '/ldssearch', difficulty: 'Beginner' },
-  { name: 'Shortest Path', href: '/spath', difficulty: 'Intermediate' },
-  { name: 'Abstract Data Types', href: '/adt', difficulty: 'Intermediate' },
-  { name: "Kadane's Algorithm", href: '/kadane', difficulty: 'Intermediate' },
-  {
-    name: "Moore's Voting Algorithm",
-    href: '/moore-voting',
-    difficulty: 'Intermediate',
-  },
-  { name: 'Math Theory', href: '/math-theory', difficulty: 'Intermediate' },
-  {
-    name: 'String Algorithms',
-    href: '/string-algorithms',
-    difficulty: 'Advanced',
-  },
-  { name: 'Backtracking', href: '/backtracking', difficulty: 'Advanced' },
-  {
-    name: 'Dynamic Programming',
-    href: '/dynamic-programming',
-    difficulty: 'Advanced',
-  },
-  {
-    name: 'DP Optimization Journey',
-    href: '/dp-journey',
-    difficulty: 'Advanced',
-  },
-  { name: 'Practice Sandbox', href: '/practice', difficulty: 'Intermediate' },
-  {
-    name: 'Guess the Algorithm',
-    href: '/challenge',
-    difficulty: 'Intermediate',
-  },
-]
-
 export const Navbar = () => {
   const [open, setOpen] = useState(false)
-  const [hoveredTab, setHoveredTab] = useState(null)
-  const [exploreOpen, setExploreOpen] = useState(false)
-  const exploreButtonRef = useRef(null)
+  const location = useLocation()
 
-  const { pathname } = useLocation()
-  const isExploreMenuOpen = hoveredTab === 'explore' || exploreOpen
-
-  const [history, setHistory] = useState(() => {
-    try {
-      const saved = localStorage.getItem('algo-history')
-      return saved ? JSON.parse(saved) : []
-    } catch (error) {
-      console.error('Failed to parse algo-history:', error)
-      return []
-    }
-  })
-
-  useEffect(() => {
-    const current = algorithmLinks.find((link) => link.href === pathname)?.name
-
-    if (current) {
-      const timer = setTimeout(() => {
-        setHistory((prev) => {
-          if (prev[0] === current) return prev
-          const updated = [current, ...prev.filter((item) => item !== current)]
-          return updated.slice(0, 5)
-        })
-      }, 0)
-      return () => clearTimeout(timer)
-    }
-  }, [pathname])
-
-  useEffect(() => {
-    localStorage.setItem('algo-history', JSON.stringify(history))
-  }, [history])
-
-  const closeExploreMenu = () => {
-    setExploreOpen(false)
-    setHoveredTab((current) => (current === 'explore' ? null : current))
-  }
-
-  const handleExploreKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
-      setExploreOpen((current) => !current)
-      setHoveredTab('explore')
-    } else if (event.key === 'Escape') {
-      event.preventDefault()
-      closeExploreMenu()
-      exploreButtonRef.current?.focus()
-    }
-  }
-
-  const handleExploreBlur = (event) => {
-    if (!event.currentTarget.contains(event.relatedTarget)) {
-      closeExploreMenu()
-    }
+  const isActive = (path) => {
+    if (path === '/prep') return location.pathname === '/' || location.pathname.startsWith('/prep')
+    return location.pathname.startsWith(path)
   }
 
   return (
-    <header className="theme-navbar sticky top-4 z-50 max-w-7xl mx-auto backdrop-blur-xl rounded-2xl px-6 py-2 w-full transition-all duration-500 shadow-lg hover:border-slate-400/50 dark:!bg-slate-950/70 dark:!border dark:!border-slate-800/80 dark:hover:!border-indigo-500/30 dark:!shadow-[0_0_30px_rgba(99,102,241,0.05)] dark:hover:!shadow-[0_0_40px_rgba(99,102,241,0.15)]">
-      <div className="w-full">
-        <div className="flex h-14 items-center justify-between relative">
-          <Link
-            to="/"
-            data-tour="logo-brand"
-            className="flex flex-row text-xl font-semibold tracking-tight group"
-          >
-            <div className="w-10 h-10 m-auto rounded flex items-center justify-center mr-3 transition-transform group-hover:scale-110">
-              <img src={logo} alt="AlgoScope Logo" className="w-8 h-8" />
-            </div>
-
-            <span className="mt-1 text-2xl theme-text-strong font-bold tracking-tighter logo-font">
-              AlgoScope
-            </span>
+    <header className="sticky top-4 z-50 max-w-7xl mx-auto w-full transition-all duration-200 rounded-2xl border-b border-slate-800/30 backdrop-blur-md bg-slate-900/50 px-4 py-2">
+      <div className="flex items-center justify-between gap-4">
+        {/* Left: Brand + Nav */}
+        <div className="flex items-center gap-6">
+          <Link to="/prep" className="flex items-center gap-3 group">
+            <img src={logo} alt="AlgoScope" className="w-8 h-8" />
+            <span className="text-xl font-bold tracking-tight logo-font">AlgoScope</span>
           </Link>
 
-          {/* Desktop Search */}
-          <div
-            data-tour="search-bar"
-            className="hidden md:flex flex-1 justify-center max-w-xs mx-4 z-10"
-          >
-            <SearchBar />
-          </div>
-
-          <div className="hidden md:flex items-center gap-6">
-            <ul
-              className="flex items-center gap-1 relative"
-              onMouseLeave={() => setHoveredTab(null)}
+          <nav className="hidden md:flex items-center gap-2">
+            <Link
+              to="/prep"
+              className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                isActive('/prep')
+                  ? 'bg-white/8 text-cyan-200 shadow-[0_0_0_1px_rgba(34,211,238,0.06)]'
+                  : 'text-slate-300 hover:text-slate-50 hover:bg-white/2'
+              }`}
             >
-              {/* Explore Trigger */}
-              <li
-                className="relative group py-1.5"
-                onMouseEnter={() => setHoveredTab('explore')}
-                onBlur={handleExploreBlur}
-                onKeyDown={(event) => {
-                  if (event.key === 'Escape') {
-                    event.preventDefault()
-                    closeExploreMenu()
-                    exploreButtonRef.current?.focus()
-                  }
-                }}
-              >
-                <button
-                  ref={exploreButtonRef}
-                  data-tour="explore-nav"
-                  type="button"
-                  aria-haspopup="menu"
-                  aria-expanded={isExploreMenuOpen}
-                  aria-controls="desktop-explore-menu"
-                  onClick={() => {
-                    setExploreOpen((current) => !current)
-                    setHoveredTab('explore')
-                  }}
-                  onKeyDown={handleExploreKeyDown}
-                  className="relative text-sm font-medium text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 px-4 py-1.5 rounded-lg transition-all duration-300 z-10 cursor-pointer"
-                >
-                  Explore
-                </button>
-                {isExploreMenuOpen && (
-                  <motion.div
-                    layoutId="nav-hover-pill"
-                    className="absolute inset-0 bg-slate-200/50 dark:bg-slate-900/60 border border-slate-300/30 dark:border-slate-800/50 rounded-lg -z-0"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-                  />
-                )}
+              Prep
+            </Link>
 
-                <div
-                  id="desktop-explore-menu"
-                  role="menu"
-                  className={`absolute left-0 top-full mt-3 py-2 w-64 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-slate-950 p-2 shadow-2xl backdrop-blur-2xl transition-all duration-300 z-50 ${
-                    isExploreMenuOpen
-                      ? 'visible opacity-100 translate-y-0'
-                      : 'invisible opacity-0 translate-y-2'
-                  }`}
-                >
-                  {algorithmLinks.map((link) => (
-                    <Link
-                      key={link.name}
-                      to={link.href}
-                      role="menuitem"
-                      onClick={closeExploreMenu}
-                      className={`block rounded-lg px-4 py-2 text-sm transition-all duration-200 border-l-2 ${
-                        pathname === link.href
-                          ? 'bg-indigo-50/80 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border-indigo-600 dark:border-indigo-500 font-medium'
-                          : 'text-slate-600 dark:text-slate-400 border-transparent hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
+            <Link
+              to="/practice"
+              className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                isActive('/practice')
+                  ? 'bg-white/8 text-cyan-200 shadow-[0_0_0_1px_rgba(34,211,238,0.06)]'
+                  : 'text-slate-300 hover:text-slate-50 hover:bg-white/2'
+              }`}
+            >
+              Practice
+            </Link>
 
-                  <div className="my-2 border-t border-slate-200 dark:border-slate-800/80" />
+            <Link
+              to="/interview"
+              className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                isActive('/interview')
+                  ? 'bg-white/8 text-cyan-200 shadow-[0_0_0_1px_rgba(34,211,238,0.06)]'
+                  : 'text-slate-300 hover:text-slate-50 hover:bg-white/2'
+              }`}
+            >
+              Interview Prep
+            </Link>
 
-                  <p className="px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-500">
-                    Recent
-                  </p>
 
-                  {history.length === 0 ? (
-                    <p className="px-4 py-2 text-sm text-slate-500">
-                      No recent algorithms
-                    </p>
-                  ) : (
-                    history.map((item) => {
-                      const matched = algorithmLinks.find(
-                        (link) => link.name === item
-                      )
+            <Link
+              to="/about"
+              className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                isActive('/about')
+                  ? 'bg-white/8 text-cyan-200 shadow-[0_0_0_1px_rgba(34,211,238,0.06)]'
+                  : 'text-slate-300 hover:text-slate-50 hover:bg-white/2'
+              }`}
+            >
+              About
+            </Link>
 
-                      return (
-                        <Link
-                          key={item}
-                          to={matched?.href || '/'}
-                          role="menuitem"
-                          onClick={closeExploreMenu}
-                          className="block rounded-lg px-4 py-2 text-sm transition-all duration-200 border-l-2 border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700"
-                        >
-                          {item}
-                        </Link>
-                      )
-                    })
-                  )}
-                </div>
-              </li>
+            <Link
+              to="/challenge"
+              className={`px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                isActive('/challenge')
+                  ? 'bg-white/8 text-cyan-200 shadow-[0_0_0_1px_rgba(34,211,238,0.06)]'
+                  : 'text-slate-300 hover:text-slate-50 hover:bg-white/2'
+              }`}
+            >
+              Challenge
+            </Link>
+          </nav>
+        </div>
 
-              {/* Top Level Link: Practice */}
-              <li
-                className="relative py-1.5"
-                onMouseEnter={() => setHoveredTab('practice')}
-              >
-                <Link
-                  to="/practice"
-                  data-tour="practice-nav"
-                  className={`relative text-sm font-medium px-4 py-1.5 rounded-lg transition-all duration-300 z-10 ${
-                    pathname === '/practice'
-                      ? 'text-indigo-600 dark:text-indigo-300 font-semibold'
-                      : 'text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
-                  }`}
-                >
-                  Practice
-                </Link>
-                {hoveredTab === 'practice' && (
-                  <motion.div
-                    layoutId="nav-hover-pill"
-                    className="absolute inset-0 bg-slate-200/50 dark:bg-slate-900/60 border border-slate-300/30 dark:border-slate-800/50 rounded-lg -z-0"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-                  />
-                )}
-              </li>
-
-              {/* Top Level Link: Challenge */}
-              <li
-                className="relative py-1.5"
-                onMouseEnter={() => setHoveredTab('challenge')}
-              >
-                <Link
-                  to="/challenge"
-                  data-tour="challenge-nav"
-                  className={`relative text-sm font-medium px-4 py-1.5 rounded-lg transition-all duration-300 z-10 ${
-                    pathname === '/challenge'
-                      ? 'text-indigo-600 dark:text-indigo-300 font-semibold'
-                      : 'text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
-                  }`}
-                >
-                  Challenge
-                </Link>
-                {hoveredTab === 'challenge' && (
-                  <motion.div
-                    layoutId="nav-hover-pill"
-                    className="absolute inset-0 bg-slate-200/50 dark:bg-slate-900/60 border border-slate-300/30 dark:border-slate-800/50 rounded-lg -z-0"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-                  />
-                )}
-              </li>
-            </ul>
+          {/* Right (desktop): Search, Theme, Github, Sign In */}
+          <div className="hidden md:flex items-center gap-3">
+            <div className="w-64">
+              <SearchBar />
+            </div>
 
             <ThemeToggleButton data-tour="theme-toggle" />
 
             <a
               href="https://github.com/algoscope-hq/AlgoScope"
-              data-tour="github-btn"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40 hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-200 rounded-xl px-4 py-1.5 text-sm font-medium transition-all duration-300 shadow-md active:scale-95"
+              className="p-2 rounded-lg border border-transparent hover:bg-white/2 transition-all duration-200"
+              aria-label="GitHub"
             >
-              <img
-                src={githubIcon}
-                alt="Github Repository Link"
-                className="w-5 h-5 dark:invert-0 invert"
-              />
-
-              <span>Github</span>
+              <img src={githubIcon} alt="Github" className="w-5 h-5" />
             </a>
 
-            <div
-              data-tour="profile-nav"
-              className="flex items-center gap-4 border-l border-slate-200 dark:border-slate-800/80 pl-6"
-            >
+            <div className="ml-2">
               {HAS_CLERK ? (
                 <>
                   <SignedOut>
@@ -467,7 +261,6 @@ export const Navbar = () => {
             </motion.button>
           </div>
         </div>
-      </div>
 
       {/* Mobile Menu Drawer */}
       <AnimatePresence>
@@ -493,7 +286,7 @@ export const Navbar = () => {
               {/* Drawer Header */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-200 dark:border-slate-800/80">
                 <Link
-                  to="/"
+                  to="/prep"
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-2"
                 >
@@ -513,33 +306,51 @@ export const Navbar = () => {
 
               {/* Drawer Body - Scrollable */}
               <div className="flex-grow overflow-y-auto space-y-6 pr-2">
-                {/* Search */}
                 <div className="w-full">
                   <SearchBar />
                 </div>
 
-                {/* Nav list */}
                 <div>
                   <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3 px-2">
-                    Explore Algorithms
+                    Modes
                   </h3>
-                  <ul className="space-y-1">
-                    {algorithmLinks.map((link) => (
-                      <li key={link.name}>
-                        <Link
-                          to={link.href}
-                          onClick={() => setOpen(false)}
-                          className={`block rounded-lg px-4 py-2.5 text-sm transition-all duration-200 border-l-2 ${
-                            pathname === link.href
-                              ? 'bg-indigo-50/80 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border-indigo-600 dark:border-indigo-500 font-semibold'
-                              : 'text-slate-600 dark:text-slate-400 border-transparent hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-700'
-                          }`}
-                        >
-                          {link.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  <ModeTabs mobile onNavigate={() => setOpen(false)} />
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3 px-2">
+                    Interview Prep
+                  </h3>
+                  <Link
+                    to="/interview"
+                    onClick={() => setOpen(false)}
+                    className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-slate-50 dark:hover:bg-slate-900 transition-all duration-200"
+                  >
+                    Interview Prep Mode
+                  </Link>
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3 px-2">
+                    Games
+                  </h3>
+                  <Link
+                    to="/challenge"
+                    onClick={() => setOpen(false)}
+                    className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-slate-50 dark:hover:bg-slate-900 transition-all duration-200"
+                  >
+                    Guess the Algorithm
+                  </Link>
+                </div>
+
+                <div className="flex justify-center pt-2">
+                  <Link
+                    to="/about"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex items-center justify-center rounded-xl border border-slate-200/80 bg-slate-50/90 px-5 py-2 text-sm font-semibold text-slate-600 transition-all duration-300 hover:border-slate-300 hover:text-slate-900 dark:border-slate-800/80 dark:bg-slate-950/60 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-slate-100"
+                  >
+                    About
+                  </Link>
                 </div>
               </div>
 

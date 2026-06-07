@@ -63,6 +63,40 @@ const pageMetadata = {
     description:
       'Test your algorithm recognition skills! Watch the visualization and guess which sorting algorithm is running in real-time.',
   },
+  '/prep': {
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+  },
+  '/interview': {
+    title: 'Interview Preparation | AlgoScope',
+    description:
+      'Prepare for technical interviews with 1000+ DSA questions, mock interview simulators, company-specific prep, and readiness analytics.',
+  },
+  '/backtracking': {
+    title: 'Backtracking Visualizer | AlgoScope',
+    description:
+      'Visualize backtracking algorithms step-by-step with interactive animations for N-Queens, Sudoku, and more.',
+  },
+  '/dynamic-programming': {
+    title: 'Dynamic Programming Visualizer | AlgoScope',
+    description:
+      'Understand dynamic programming concepts visually with animated DP table construction and step-by-step execution.',
+  },
+  '/dp-journey': {
+    title: 'DP Optimization Journey | AlgoScope',
+    description:
+      'Explore dynamic programming optimization techniques with interactive visualizations and real-world examples.',
+  },
+  '/operating-systems': {
+    title: 'Operating Systems Concepts | AlgoScope',
+    description:
+      'Learn OS scheduling, memory management, and process synchronization concepts with interactive visualizations.',
+  },
+  '/string-algorithms': {
+    title: 'String Algorithms Visualizer | AlgoScope',
+    description:
+      'Visualize KMP, Rabin-Karp, and other string algorithms with step-by-step pattern matching animations.',
+  },
 }
 
 function setMeta(selector, attribute, value) {
