@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { MoveUpRight } from 'lucide-react'
 import {
-  getFavorites,
   isFavoriteId,
-  toggleFavorite,
   subscribeFavoritesChange,
 } from '../lib/favorites'
 import DifficultyBadge from './DifficultyBadge'
