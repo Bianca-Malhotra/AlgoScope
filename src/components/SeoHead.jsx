@@ -46,22 +46,12 @@ const pageMetadata = {
   '/kadane': {
     title: 'Kadane Algorithm | AlgoScope',
     description:
-      'Visualize Kadane’s algorithm step by step to understand maximum subarray sums with interactive animations and synchronized code.',
+      "Visualize Kadane's algorithm step by step to understand maximum subarray sums with interactive animations and synchronized code.",
   },
   '/moore-voting': {
     title: "Moore's Voting Algorithm | AlgoScope",
     description:
       "Visualize Moore's voting algorithm step by step to understand how it finds the majority element in an array with interactive animations and synchronized code.",
-  },
-  '/dynamic-programming': {
-    title: 'Dynamic Programming Visualizer | AlgoScope',
-    description:
-      'Visualize dynamic programming algorithms step-by-step with interactive animations for LCS, Knapsack, Coin Change, LIS, and more.',
-  },
-  '/dp-journey': {
-    title: 'DP Journey | AlgoScope',
-    description:
-      'Explore the Dynamic Programming learning journey on AlgoScope with guided visualizations and step-by-step algorithm breakdowns.',
   },
   '/about': {
     title: 'About AlgoScope',
@@ -86,6 +76,17 @@ const pageMetadata = {
     title: 'Backtracking Visualizer | AlgoScope',
     description:
       'Visualize backtracking algorithms step-by-step with interactive animations for N-Queens, Sudoku, and more.',
+
+  // 🆕 Previously missing live pages (fixes #566)
+  '/math-theory': {
+    title: 'Math Theory | AlgoScope',
+    description:
+      'Explore the mathematical foundations behind algorithms. Learn about complexity theory, proofs, and the core math concepts that power modern algorithms.',
+  },
+  '/string-algorithms': {
+    title: 'String Algorithms Visualizer | AlgoScope',
+    description:
+      'Visualize string algorithms step by step with interactive animations. Understand pattern matching, substring search, and other string manipulation techniques.',
   },
   '/dynamic-programming': {
     title: 'Dynamic Programming Visualizer | AlgoScope',
@@ -106,6 +107,12 @@ const pageMetadata = {
     title: 'String Algorithms Visualizer | AlgoScope',
     description:
       'Visualize KMP, Rabin-Karp, and other string algorithms with step-by-step pattern matching animations.',
+      'Learn dynamic programming concepts interactively. Visualize memoization, tabulation, and optimal substructure through step-by-step animated examples.',
+  },
+  '/backtracking': {
+    title: 'Backtracking Algorithms | AlgoScope',
+    description:
+      'Understand backtracking algorithms with interactive visualizations. Explore how constraint-based search and recursive decision trees solve complex problems.',
   },
 }
 

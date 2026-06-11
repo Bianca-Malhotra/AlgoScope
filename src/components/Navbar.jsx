@@ -97,6 +97,48 @@ const ThemeToggleButton = ({ compact = false, ...props }) => {
   )
 }
 
+const algorithmLinks = [
+  { name: 'Search', href: '/search', difficulty: 'Beginner' },
+  { name: 'Sort', href: '/sort', difficulty: 'Beginner' },
+  { name: 'Array Search', href: '/ldssearch', difficulty: 'Beginner' },
+  { name: 'Shortest Path', href: '/spath', difficulty: 'Intermediate' },
+  { name: 'Abstract Data Types', href: '/adt', difficulty: 'Intermediate' },
+  { name: "Kadane's Algorithm", href: '/kadane', difficulty: 'Intermediate' },
+  {
+    name: "Moore's Voting Algorithm",
+    href: '/moore-voting',
+    difficulty: 'Intermediate',
+  },
+  { name: 'Math Theory', href: '/math-theory', difficulty: 'Intermediate' },
+  {
+    name: 'String Algorithms',
+    href: '/string-algorithms',
+    difficulty: 'Advanced',
+  },
+  { name: 'Backtracking', href: '/backtracking', difficulty: 'Advanced' },
+  {
+    name: 'Dynamic Programming',
+    href: '/dynamic-programming',
+    difficulty: 'Advanced',
+  },
+  {
+    name: 'DP Optimization Journey',
+    href: '/dp-journey',
+    difficulty: 'Advanced',
+  },
+  { name: 'Practice Sandbox', href: '/practice', difficulty: 'Intermediate' },
+  {
+    name: 'Guess the Algorithm',
+    href: '/challenge',
+    difficulty: 'Intermediate',
+  },
+  {
+    name: 'Sliding Window',
+    href: '/sliding-window',
+    difficulty: 'Advanced',
+  },
+]
+
 export const Navbar = () => {
   const [open, setOpen] = useState(false)
   const location = useLocation()
@@ -174,6 +216,60 @@ export const Navbar = () => {
             </Link>
           </nav>
         </div>
+              {/* Top Level Link: Practice */}
+              <li
+                className="relative py-1.5"
+                onMouseEnter={() => setHoveredTab('favorites')}
+              >
+                <Link
+                  to="/favorites"
+                  data-tour="favorites-nav"
+                  className={`relative text-sm font-medium px-4 py-1.5 rounded-lg transition-all duration-300 z-10 ${
+                    pathname === '/favorites'
+                      ? 'text-indigo-600 dark:text-indigo-300 font-semibold'
+                      : 'text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+                  }`}
+                >
+                  Favorites
+                </Link>
+                {hoveredTab === 'favorites' && (
+                  <motion.div
+                    layoutId="nav-hover-pill"
+                    className="absolute inset-0 bg-slate-200/50 dark:bg-slate-900/60 border border-slate-300/30 dark:border-slate-800/50 rounded-lg -z-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                  />
+                )}
+              </li>
+
+              <li
+                className="relative py-1.5"
+                onMouseEnter={() => setHoveredTab('practice')}
+              >
+                <Link
+                  to="/practice"
+                  data-tour="practice-nav"
+                  className={`relative text-sm font-medium px-4 py-1.5 rounded-lg transition-all duration-300 z-10 ${
+                    pathname === '/practice'
+                      ? 'text-indigo-600 dark:text-indigo-300 font-semibold'
+                      : 'text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+                  }`}
+                >
+                  Practice
+                </Link>
+                {hoveredTab === 'practice' && (
+                  <motion.div
+                    layoutId="nav-hover-pill"
+                    className="absolute inset-0 bg-slate-200/50 dark:bg-slate-900/60 border border-slate-300/30 dark:border-slate-800/50 rounded-lg -z-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                  />
+                )}
+              </li>
 
           {/* Right (desktop): Search, Theme, Github, Sign In */}
           <div className="hidden md:flex items-center gap-3">
