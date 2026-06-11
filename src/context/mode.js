@@ -6,6 +6,7 @@ export const MODE_KEYS = {
   prep: 'prep',
   practice: 'practice',
   about: 'about',
+  interview: 'interview'
 }
 
 export const ModeContext = createContext(null)
