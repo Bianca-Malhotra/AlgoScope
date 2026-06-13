@@ -135,6 +135,11 @@ const algorithmLinks = [
     href: '/sliding-window',
     difficulty: 'Advanced',
   },
+  {
+    name: 'Two Pointer Approach',
+    href: '/two-pointer',
+    difficulty: 'Advanced',
+  },
 ]
 
 export const Navbar = () => {

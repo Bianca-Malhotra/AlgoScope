@@ -63,6 +63,9 @@ const DPOptimizationJourneyPage = lazy(
 const SlidingWindowVisualizerPage = lazy(
   () => import('./components/slidingwindow/SlidingWindowVisualizer')
 )
+const TwoPointerVisualizerPage = lazy(
+  () => import('./components/twoPointer/TwoPointerVisualizer')
+)
 const PracticePage = lazy(() => import('./components/PracticePage'))
 const AboutAlgoScope = lazy(() => import('./components/about/About'))
 const Favorites = lazy(() => import('./components/Favorites'))
@@ -228,6 +231,16 @@ const router = createBrowserRouter([
       <Suspense fallback={<PageLoader />}>
         <AppLayout>
           <SlidingWindowVisualizerPage />
+        </AppLayout>
+      </Suspense>
+    ),
+  },
+  {
+    path: '/two-pointer',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <AppLayout>
+          <TwoPointerVisualizerPage />
         </AppLayout>
       </Suspense>
     ),
