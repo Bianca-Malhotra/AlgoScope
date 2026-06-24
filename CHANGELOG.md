@@ -5,6 +5,157 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.0] - 2026-06-18
+
+### Added
+
+- expand MCQ bank and prevent repeated questions on restart
+- add Linked List visualization module (closes #649)
+- add RR, Priority, SRTF and MLQ scheduling algorithms
+- advanced trees visualizer improvements and lint fixes
+
+### Fixed
+
+- format & lint
+- address CodeRabbit review comments on picker logic and useRef
+- correct array search algorithm names in global search
+- format App.jsx, Home.jsx, and CanvasSearching.jsx with LF endOfLine
+- import TwoPointerVisualizerPage and format code style
+- remove overly broad src/\*_/_.js pattern from ignores
+- format & lint
+- format & lint
+- format & lint
+- highlight navbar Explore button when on algorithm sub-pages
+- hide overlapping data dots on complexity graph
+- add docstrings to LinkedListIV and complete C/Rust snippets in adtSources
+- close explore dropdown when search modal opens
+- synchronize playback timers
+- address CodeRabbit scheduling review comments
+- format step playback hook and exclude nested dist in eslint config
+- remove unused setVersion and clean up TrieVisualizer
+
+### Changed
+
+- lazy load vis-network to reduce render-blocking resources
+- memoize closeExploreMenu with useCallback
+
+### 📂 Changed Files
+
+```
+- 📁 **src/**
+  - 📁 **algorithms/**
+    - 📁 **greedy/**
+      - ➕ fractionalKnapsackSteps.js
+      - ➕ greedySources.js
+      - ➕ huffmanCodingSteps.js
+    - 📁 **trees/**
+      - ➕ avlTree.js
+      - ➕ segmentTree.js
+      - ➕ trie.js
+  - 📁 **components/**
+    - 📁 **advancedTrees/**
+      - ➕ AVLTreeVisualizer.jsx
+      - ➕ BinaryTreeWithTrie.jsx
+      - ➕ SegmentTreeVisualizer.jsx
+      - ➕ TrieVisualizer.jsx
+    - 📁 **challenge/**
+      - ✏️ ChallengeVisualizer.jsx
+    - 📁 **dataStructures/**
+      - ✏️ adtSources.js
+      - ✏️ DSLayout.jsx
+      - ➕ LinkedListIV.jsx
+    - 📁 **greedyAlgo/**
+      - ➕ GreedyAlgorithmCard.jsx
+      - ➕ GreedyBlock.jsx
+      - ➕ HuffmanVisualizer.jsx
+      - ➕ KnapsackVisualizer.jsx
+      - ➕ VisualizerPage.jsx
+    - 📁 **operatingSystems/**
+      - ✏️ cpuSchedulingAlgorithms.js
+      - ➕ cpuSchedulingData.js
+      - ✏️ CPUSchedulingPage.jsx
+    - 📁 **searchAlgo/**
+      - ✏️ CanvasSearching.jsx
+    - 📁 **visualizer/**
+      - ✏️ useStepPlayback.js
+    - ✏️ ComplexityGraph.jsx
+    - ✏️ Home.jsx
+    - ✏️ Navbar.jsx
+    - ✏️ SearchBar.jsx
+  - 📁 **data/**
+    - ✏️ complexityMap.js
+  - 📁 **pages/**
+    - ➕ AdvancedTreesPage.jsx
+  - ✏️ App.jsx
+  - ✏️ main.jsx
+- ✏️ CHANGELOG.md
+- ✏️ eslint.config.js
+- ✏️ index.html
+- ✏️ package-lock.json
+- ✏️ package.json
+- ✏️ README.md
+```
+
+## [1.12.0] - 2026-06-13
+
+### Added
+
+- add drag and drop support for start and end nodes
+- add glassmorphism effect to Clerk sign in/up modal
+- add CPU scheduling visualizer with FCFS and SJF
+- add cpu scheduling route
+- add algorithm bookmark favorites system
+
+### Fixed
+
+- resolve lint errors
+- expand format check to project files
+- add metadata for missing application routes
+- add missing routes to sitemap
+- add missing pageMetadata entries for /dynamic-programming and /dp-journey routes
+- resolve inline style specificity clash in light and dark modes
+
+### 📂 Changed Files
+
+```
+- 📁 **public/**
+  - ✏️ preview.png
+  - ✏️ sitemap.xml
+- 📁 **src/**
+  - 📁 **components/**
+    - 📁 **arraySearch/**
+      - ✏️ ComparisonMode.jsx
+      - ✏️ Visualizer.jsx
+    - 📁 **operatingSystems/**
+      - ➕ cpuSchedulingAlgorithms.js
+      - ➕ CPUSchedulingPage.jsx
+      - ➕ DiskSchedulingPage.jsx
+      - ✏️ OperatingSystemsPage.jsx
+      - ➕ PageReplacementPage.jsx
+    - 📁 **shortestPathAlgo/**
+      - ✏️ GridVisualizer.jsx
+    - 📁 **slidingwindow/**
+      - ➕ SlidingWindowVisualizer.jsx
+    - 📁 **sortingAlgo/**
+      - ✏️ Visualizer.jsx
+    - 📁 **twoPointer/**
+      - ➕ TwoPointerVisualizer.jsx
+    - ✏️ AlgoCard.jsx
+    - ➕ Favorites.jsx
+    - ✏️ Home.jsx
+    - ✏️ Navbar.jsx
+    - ✏️ SeoHead.jsx
+  - 📁 **lib/**
+    - ➕ favorites.js
+  - ✏️ App.jsx
+  - ✏️ input.css
+  - ✏️ main.jsx
+- ✏️ CHANGELOG.md
+- ✏️ package-lock.json
+- ✏️ package.json
+- ✏️ README.md
+```
+
 ## [1.11.0] - 2026-06-07
 
 ### Added

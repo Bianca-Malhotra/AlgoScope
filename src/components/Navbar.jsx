@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import {
   SignedIn,
   SignedOut,
@@ -126,22 +128,90 @@ const algorithmLinks = [
     href: '/dp-journey',
     difficulty: 'Advanced',
   },
+  {
+    name: 'Sliding Window',
+    href: '/sliding-window',
+    difficulty: 'Advanced',
+  },
+  {
+    name: 'Two Pointer Approach',
+    href: '/two-pointer',
+    difficulty: 'Advanced',
+  },
+  {
+    name: 'Monotonic Stack',
+    href: '/monotonic-stack',
+    difficulty: 'Advanced',
+  },
   { name: 'Practice Sandbox', href: '/practice', difficulty: 'Intermediate' },
   {
     name: 'Guess the Algorithm',
     href: '/challenge',
     difficulty: 'Intermediate',
   },
-  {
-    name: 'Sliding Window',
-    href: '/sliding-window',
-    difficulty: 'Advanced',
-  },
 ]
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false)
   const location = useLocation()
+  const [hoveredTab, setHoveredTab] = useState(null)
+  const [exploreOpen, setExploreOpen] = useState(false)
+  const exploreButtonRef = useRef(null)
+
+  const { pathname } = useLocation()
+  const isExploreMenuOpen = hoveredTab === 'explore' || exploreOpen
+  const isExploreActive = algorithmLinks.some(
+    (link) =>
+      link.href !== '/practice' &&
+      link.href !== '/challenge' &&
+      pathname.startsWith(link.href)
+  )
+
+  const [history, setHistory] = useState(() => {
+    try {
+      const saved = localStorage.getItem('algo-history')
+      return saved ? JSON.parse(saved) : []
+    } catch (error) {
+      console.error('Failed to parse algo-history:', error)
+      return []
+    }
+  })
+
+  useEffect(() => {
+    const current = algorithmLinks.find((link) => link.href === pathname)?.name
+
+    if (current) {
+      const timer = setTimeout(() => {
+        setHistory((prev) => {
+          if (prev[0] === current) return prev
+          const updated = [current, ...prev.filter((item) => item !== current)]
+          return updated.slice(0, 5)
+        })
+      }, 0)
+      return () => clearTimeout(timer)
+    }
+  }, [pathname])
+
+  useEffect(() => {
+    localStorage.setItem('algo-history', JSON.stringify(history))
+  }, [history])
+
+  const closeExploreMenu = useCallback(() => {
+    setExploreOpen(false)
+    setHoveredTab((current) => (current === 'explore' ? null : current))
+  }, [])
+
+  const handleExploreKeyDown = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      setExploreOpen((current) => !current)
+      setHoveredTab('explore')
+    } else if (event.key === 'Escape') {
+      event.preventDefault()
+      closeExploreMenu()
+      exploreButtonRef.current?.focus()
+    }
+  }
 
   const isActive = (path) => {
     if (path === '/prep') return location.pathname === '/' || location.pathname.startsWith('/prep')
@@ -191,6 +261,62 @@ export const Navbar = () => {
             >
               Interview Prep
             </Link>
+          {/* Desktop Search */}
+          <div
+            data-tour="search-bar"
+            className="hidden md:flex flex-1 justify-center max-w-xs mx-4 z-10"
+          >
+            <SearchBar onOpen={closeExploreMenu} />
+          </div>
+
+          <div className="hidden md:flex items-center gap-6">
+            <ul
+              className="flex items-center gap-1 relative"
+              onMouseLeave={() => setHoveredTab(null)}
+            >
+              {/* Explore Trigger */}
+              <li
+                className="relative group py-1.5"
+                onMouseEnter={() => setHoveredTab('explore')}
+                onBlur={handleExploreBlur}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') {
+                    event.preventDefault()
+                    closeExploreMenu()
+                    exploreButtonRef.current?.focus()
+                  }
+                }}
+              >
+                <button
+                  ref={exploreButtonRef}
+                  data-tour="explore-nav"
+                  type="button"
+                  aria-haspopup="menu"
+                  aria-expanded={isExploreMenuOpen}
+                  aria-controls="desktop-explore-menu"
+                  onClick={() => {
+                    setExploreOpen((current) => !current)
+                    setHoveredTab('explore')
+                  }}
+                  onKeyDown={handleExploreKeyDown}
+                  className={`relative text-sm font-medium px-4 py-1.5 rounded-lg transition-all duration-300 z-10 cursor-pointer ${
+                    isExploreActive
+                      ? 'text-indigo-600 dark:text-indigo-300 font-semibold'
+                      : 'text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+                  }`}
+                >
+                  Explore
+                </button>
+                {isExploreMenuOpen && (
+                  <motion.div
+                    layoutId="nav-hover-pill"
+                    className="absolute inset-0 bg-slate-200/50 dark:bg-slate-900/60 border border-slate-300/30 dark:border-slate-800/50 rounded-lg -z-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                  />
+                )}
 
 
             <Link
@@ -403,7 +529,7 @@ export const Navbar = () => {
               {/* Drawer Body - Scrollable */}
               <div className="flex-grow overflow-y-auto space-y-6 pr-2">
                 <div className="w-full">
-                  <SearchBar />
+                  <SearchBar onOpen={closeExploreMenu} />
                 </div>
 
                 <div>

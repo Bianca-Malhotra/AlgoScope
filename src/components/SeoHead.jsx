@@ -114,6 +114,26 @@ const pageMetadata = {
     description:
       'Understand backtracking algorithms with interactive visualizations. Explore how constraint-based search and recursive decision trees solve complex problems.',
   },
+  '/dp-journey': {
+    title: 'DP Optimization Journey | AlgoScope',
+    description:
+      'Watch dynamic programming optimizations step by step. See how algorithms evolve from brute-force recursion to optimal space complexity.',
+  },
+  '/sliding-window': {
+    title: 'Sliding Window Visualizer | AlgoScope',
+    description:
+      'Visualize the sliding window technique interactively. Understand how to maintain a window of elements to solve array and string problems efficiently.',
+  },
+  '/two-pointer': {
+    title: 'Two Pointer Technique | AlgoScope',
+    description:
+      'Watch the two pointer technique in action. See how pointers converge to solve array problems in O(n) time instead of O(n²) brute force.',
+  },
+  '/operating-systems': {
+    title: 'Operating Systems | AlgoScope',
+    description:
+      'Learn core operating systems concepts with interactive visualizations. Explore CPU scheduling, memory management, and process synchronization.',
+  },
 }
 
 function setMeta(selector, attribute, value) {

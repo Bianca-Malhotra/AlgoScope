@@ -141,13 +141,13 @@ const ALGORITHMS = [
     id: 'linear',
     name: 'Linear Search',
     category: 'Array Search',
-    route: '/ldssearch?algo=linear',
+    route: '/ldssearch?algo=linearSearch',
   },
   {
     id: 'binary',
     name: 'Binary Search',
     category: 'Array Search',
-    route: '/ldssearch?algo=binary',
+    route: '/ldssearch?algo=binarySearch',
   },
   {
     id: 'kadane',
@@ -204,6 +204,22 @@ const ALGORITHMS = [
     name: 'Stack',
     category: 'Data Structures',
     route: '/adt?type=stack',
+  },
+  {
+    id: 'monotonic-stack',
+    name: 'Monotonic Stack',
+    category: 'Data Structures',
+    route: '/monotonic-stack',
+    keywords: [
+      'monotonic stack',
+      'stack',
+      'largest rectangle in histogram',
+      'histogram',
+      'rectangle',
+      'maximal rectangle',
+      '2d-matrix mode',
+      '2d matrix',
+    ],
   },
   {
     id: 'queue',
@@ -344,9 +360,40 @@ const ALGORITHMS = [
       'Climbing Stairs',
     ],
   },
+  //Sliding Window and 2 Pointer
+  {
+    id: 'sliding-window',
+    name: 'Sliding Window',
+    category: 'Sliding Window',
+    route: '/sliding-window',
+    keywords: [
+      'slidingwindow',
+      'max sum of size k',
+      'longest unique substring',
+      'smallest subarray greater than target',
+      'subarrays',
+      'sliding window',
+    ],
+  },
+  {
+    id: 'two-pointer',
+    name: 'Two Pointer',
+    category: 'Two Pointer',
+    route: '/two-pointer',
+    keywords: [
+      'two-pointer',
+      'two pointer',
+      '2 pointer',
+      'two sum',
+      '2-sum',
+      'container with most water',
+      'valid palindrome',
+      'trapping rain water',
+    ],
+  },
 ]
 
-const SearchBar = () => {
+const SearchBar = ({ onOpen }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
@@ -414,7 +461,8 @@ const SearchBar = () => {
   const openModal = React.useCallback(() => {
     previousFocusRef.current = document.activeElement
     setIsModalOpen(true)
-  }, [])
+    onOpen?.()
+  }, [onOpen])
 
   const handleCloseModal = React.useCallback(() => {
     setIsModalOpen(false)

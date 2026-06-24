@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react'
+
 // import DPVisualizer from "./components/dynamicProgramming/DPVisualizer";
 
 const HAS_CLERK = Boolean(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY)
@@ -62,6 +63,12 @@ const DPOptimizationJourneyPage = lazy(
 
 const SlidingWindowVisualizerPage = lazy(
   () => import('./components/slidingwindow/SlidingWindowVisualizer')
+)
+const TwoPointerVisualizerPage = lazy(
+  () => import('./components/twoPointer/TwoPointerVisualizer')
+)
+const StackVisualizerPage = lazy(
+  () => import('./components/monotonicStack/StackVisualizerPage')
 )
 const PracticePage = lazy(() => import('./components/PracticePage'))
 const AboutAlgoScope = lazy(() => import('./components/about/About'))
@@ -238,6 +245,16 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: '/two-pointer',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <AppLayout>
+          <TwoPointerVisualizerPage />
+        </AppLayout>
+      </Suspense>
+    ),
+  },
+  {
     path: '/challenge',
     element: (
       <AppLayout>
@@ -250,6 +267,14 @@ const router = createBrowserRouter([
     element: (
       <AppLayout notesKey="algo-notes-string-algorithms">
         <StringAlgoVisualizerPage />
+      </AppLayout>
+    ),
+  },
+  {
+    path: '/monotonic-stack',
+    element: (
+      <AppLayout notesKey="algo-notes-stack">
+        <StackVisualizerPage />
       </AppLayout>
     ),
   },
